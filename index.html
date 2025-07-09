@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Timestamp Calculator</title>
+<html lang="en"><head><style class="darkreader darkreader--fallback" media="screen"></style><style class="darkreader darkreader--user-agent" media="screen"></style><style class="darkreader darkreader--text" media="screen"></style><style class="darkreader darkreader--invert" media="screen"></style><style class="darkreader darkreader--inline" media="screen"></style><style class="darkreader darkreader--variables" media="screen"></style><style class="darkreader darkreader--root-vars" media="screen"></style>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Application error: a client-side exception has occurred</title>
   <style>
-    /* Body and background animation with subtle metallic shine */
     body {
       margin: 0;
       padding: 0;
@@ -22,7 +19,6 @@
       color: #e6f0d4;
     }
 
-    /* Moving shine overlay */
     body::before {
       content: "";
       position: absolute;
@@ -48,7 +44,6 @@
       100% { background-position: 0% 50%; }
     }
 
-    /* Container with metallic glass effect */
     .container {
       position: relative;
       background: linear-gradient(145deg, #4b7741, #3a6531);
@@ -65,7 +60,6 @@
       overflow: hidden;
     }
 
-    /* Subtle shiny highlight on container */
     .container::after {
       content: "";
       position: absolute;
@@ -89,7 +83,6 @@
       letter-spacing: 1.2px;
     }
 
-    /* Labels */
     label {
       display: block;
       margin-bottom: 10px;
@@ -98,8 +91,8 @@
       text-shadow: 0 0 4px #a1c97a;
     }
 
-    /* Input with metallic gradient and shine */
-    input[type="number"] {
+    input[type="number"],
+    input[type="text"] {
       width: 80%;
       padding: 12px 14px;
       margin-bottom: 20px;
@@ -116,8 +109,7 @@
       text-shadow: 0 0 3px #b7e183;
     }
 
-    /* Input focus effect */
-    input[type="number"]:focus {
+    input:focus {
       background: linear-gradient(145deg, #81b64a, #567f29);
       box-shadow:
         inset 0 4px 10px #b3e55fcc,
@@ -125,7 +117,6 @@
       color: #f0ffd2;
     }
 
-    /* Button with metallic gradient and reflective shine */
     button {
       background: linear-gradient(135deg, #5f9044, #3e6023);
       color: #e0f0b8;
@@ -144,7 +135,6 @@
       text-shadow: 0 0 5px #c4e17f;
     }
 
-    /* Button shine effect using a pseudo element */
     button::before {
       content: "";
       position: absolute;
@@ -158,13 +148,11 @@
       pointer-events: none;
     }
 
-    /* Animate shine across button on hover */
     button:hover::before {
       left: 150%;
       transition: all 0.5s ease;
     }
 
-    /* Hover effect: lighter and scale up */
     button:hover {
       background: linear-gradient(135deg, #82b75c, #4e7a2d);
       transform: scale(1.08);
@@ -173,7 +161,6 @@
         0 6px 14px rgba(76, 175, 80, 0.8);
     }
 
-    /* Result text */
     #result {
       margin-top: 20px;
       font-size: 18px;
@@ -182,19 +169,29 @@
       text-shadow: 0 0 5px #9cc84b;
     }
 
-    /* Copy button hidden initially */
-    #copyBtn {
-      display: none; /* Start hidden */
+    #result.warning {
+      color: #ff6b6b;
+      text-shadow: 0 0 10px #ff6b6b;
+      animation: pulse 1s infinite alternate;
     }
-  </style>
-</head>
+
+    @keyframes pulse {
+      from { text-shadow: 0 0 5px #ff6b6b; }
+      to { text-shadow: 0 0 15px #ff0000; }
+    }
+
+    #copyBtn {
+      display: none;
+    }
+  </style><style class="darkreader darkreader--sync" media="screen"></style>
+<style class="darkreader darkreader--override" media="screen"></style><meta charset="utf-8" data-next-head=""><meta name="viewport" content="width=device-width" data-next-head=""></head>
 <body>
   <div class="container">
     <h1>Timestamp Calculator</h1>
-    <label for="minutesInput">Enter how many minutes ago:</label>
-    <input type="number" id="minutesInput" placeholder="e.g., 15" />
-    <br />
-    <button id="calculateBtn">Calculate Timestamp</button>
+    <label for="minutesInput">Enter minutes ago or code:</label>
+    <input type="text" id="minutesInput" placeholder="e.g: 15">
+    <br>
+    <button id="calculateBtn">Calculate</button>
     <div id="result"></div>
     <button id="copyBtn">Copy to Clipboard</button>
   </div>
@@ -206,20 +203,38 @@
     const resultDiv = document.getElementById('result');
 
     calculateBtn.addEventListener('click', () => {
-      const minutesAgo = parseInt(minutesInput.value);
-      if (isNaN(minutesAgo)) {
-        alert('Please enter a valid number.');
+      const inputValue = minutesInput.value.trim();
+      const lowerValue = inputValue.toLowerCase();
+
+      // Check for special codes
+      if (lowerValue === "55009b") {
+        resultDiv.textContent = "loop?";
+        resultDiv.classList.add("warning");
+        copyBtn.style.display = "none";
+        return;
+      } else if (lowerValue === "eccc9e") {
+        resultDiv.textContent = "Cookie my pookie?";
+        resultDiv.classList.add("warning");
+        copyBtn.style.display = "none";
         return;
       }
+
+      // Handle numeric input
+      const minutesAgo = parseInt(inputValue);
+      if (isNaN(minutesAgo)) {
+        alert('Please enter a valid number or code.');
+        return;
+      }
+
+      resultDiv.classList.remove("warning");
       const currentTimeMs = Date.now();
       const timestampMs = currentTimeMs - (minutesAgo * 60 * 1000);
       resultDiv.textContent = timestampMs;
       resultDiv.style.display = 'block';
-
       copyBtn.style.display = 'inline-block';
     });
 
-    // Trigger calculation when pressing Enter inside input
+    // Trigger calculation on Enter
     minutesInput.addEventListener('keydown', (event) => {
       if (event.key === 'Enter') {
         calculateBtn.click();
@@ -229,9 +244,10 @@
     copyBtn.addEventListener('click', () => {
       const textToCopy = resultDiv.textContent;
       navigator.clipboard.writeText(textToCopy)
-        .then(() => alert('Timestamp copied to clipboard!'))
+        .then(() => alert('Copied to clipboard!'))
         .catch(() => alert('Failed to copy.'));
     });
   </script>
-</body>
-</html>
+
+
+<script src="/_next/static/chunks/pages/_error-69472128dcb42fe2.js"></script><next-route-announcer><p aria-live="assertive" id="__next-route-announcer__" role="alert" style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; top: 0px; width: 1px; white-space: nowrap; overflow-wrap: normal; --darkreader-inline-border-top: 0px; --darkreader-inline-border-right: 0px; --darkreader-inline-border-bottom: 0px; --darkreader-inline-border-left: 0px;" data-darkreader-inline-border-top="" data-darkreader-inline-border-right="" data-darkreader-inline-border-bottom="" data-darkreader-inline-border-left=""></p></next-route-announcer></body></html>
