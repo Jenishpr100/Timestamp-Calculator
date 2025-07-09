@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Timestamp Calculator</title>
+  <style>
+    /* Body and background animation with subtle metallic shine */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(270deg, #1e4620, #3a7d32, #2a5c22, #4caf50);
+      background-size: 400% 400%;
+      animation: gradientAnimation 15s ease infinite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      position: relative;
+      overflow: hidden;
+      color: #e6f0d4;
+    }
+
+    /* Moving shine overlay */
+    body::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0.1) 100%);
+      animation: shineMove 7s linear infinite;
+      pointer-events: none;
+      mix-blend-mode: screen;
+      z-index: 0;
+    }
+
+    @keyframes shineMove {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(50%, 50%) rotate(360deg); }
+    }
+
+    @keyframes gradientAnimation {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Container with metallic glass effect */
+    .container {
+      position: relative;
+      background: linear-gradient(145deg, #4b7741, #3a6531);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow:
+        inset 0 0 20px #8bc34a88,
+        0 8px 20px rgba(0, 0, 0, 0.5);
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+      color: #d9f0c6;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    /* Subtle shiny highlight on container */
+    .container::after {
+      content: "";
+      position: absolute;
+      top: -40%;
+      left: -30%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.2), transparent 70%);
+      pointer-events: none;
+      mix-blend-mode: screen;
+      animation: shineMove 10s linear infinite reverse;
+      border-radius: 20px;
+      z-index: 2;
+    }
+
+    h1 {
+      color: #a9d08e;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px #9ccc65;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+    }
+
+    /* Labels */
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 16px;
+      color: #c3e088;
+      text-shadow: 0 0 4px #a1c97a;
+    }
+
+    /* Input with metallic gradient and shine */
+    input[type="number"] {
+      width: 80%;
+      padding: 12px 14px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      outline: none;
+      background: linear-gradient(145deg, #5a8a3a, #3e6023);
+      color: #e0f3b8;
+      box-shadow:
+        inset 0 2px 5px #9fd667aa,
+        inset 0 -2px 6px #365518;
+      transition: box-shadow 0.3s ease, background 0.3s ease;
+      text-shadow: 0 0 3px #b7e183;
+    }
+
+    /* Input focus effect */
+    input[type="number"]:focus {
+      background: linear-gradient(145deg, #81b64a, #567f29);
+      box-shadow:
+        inset 0 4px 10px #b3e55fcc,
+        0 0 10px #a6db55cc;
+      color: #f0ffd2;
+    }
+
+    /* Button with metallic gradient and reflective shine */
+    button {
+      background: linear-gradient(135deg, #5f9044, #3e6023);
+      color: #e0f0b8;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 26px;
+      margin: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow:
+        inset 0 1px 3px rgba(255, 255, 255, 0.4),
+        0 4px 8px rgba(0, 0, 0, 0.5);
+      position: relative;
+      overflow: hidden;
+      transition: background 0.4s ease, transform 0.2s ease, box-shadow 0.3s ease;
+      text-shadow: 0 0 5px #c4e17f;
+    }
+
+    /* Button shine effect using a pseudo element */
+    button::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -75%;
+      width: 50%;
+      height: 200%;
+      background: linear-gradient(120deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.05) 60%, rgba(255,255,255,0) 100%);
+      transform: skewX(-20deg);
+      transition: all 0.5s ease;
+      pointer-events: none;
+    }
+
+    /* Animate shine across button on hover */
+    button:hover::before {
+      left: 150%;
+      transition: all 0.5s ease;
+    }
+
+    /* Hover effect: lighter and scale up */
+    button:hover {
+      background: linear-gradient(135deg, #82b75c, #4e7a2d);
+      transform: scale(1.08);
+      box-shadow:
+        inset 0 0 15px #b3e55fcc,
+        0 6px 14px rgba(76, 175, 80, 0.8);
+    }
+
+    /* Result text */
+    #result {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #b8d88a;
+      word-wrap: break-word;
+      text-shadow: 0 0 5px #9cc84b;
+    }
+
+    /* Copy button hidden initially */
+    #copyBtn {
+      display: none; /* Start hidden */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Timestamp Calculator</h1>
+    <label for="minutesInput">Enter how many minutes ago:</label>
+    <input type="number" id="minutesInput" placeholder="e.g., 15" />
+    <br />
+    <button id="calculateBtn">Calculate Timestamp</button>
+    <div id="result"></div>
+    <button id="copyBtn">Copy to Clipboard</button>
+  </div>
+
+  <script>
+    const calculateBtn = document.getElementById('calculateBtn');
+    const copyBtn = document.getElementById('copyBtn');
+    const minutesInput = document.getElementById('minutesInput');
+    const resultDiv = document.getElementById('result');
+
+    calculateBtn.addEventListener('click', () => {
+      const minutesAgo = parseInt(minutesInput.value);
+      if (isNaN(minutesAgo)) {
+        alert('Please enter a valid number.');
+        return;
+      }
+      const currentTimeMs = Date.now();
+      const timestampMs = currentTimeMs - (minutesAgo * 60 * 1000);
+      resultDiv.textContent = timestampMs;
+      resultDiv.style.display = 'block';
+
+      copyBtn.style.display = 'inline-block';
+    });
+
+    // Trigger calculation when pressing Enter inside input
+    minutesInput.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        calculateBtn.click();
+      }
+    });
+
+    copyBtn.addEventListener('click', () => {
+      const textToCopy = resultDiv.textContent;
+      navigator.clipboard.writeText(textToCopy)
+        .then(() => alert('Timestamp copied to clipboard!'))
+        .catch(() => alert('Failed to copy.'));
+    });
+  </script>
+</body>
+</html>
